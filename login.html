@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<!-- Mirrored from thetheme.io/thesaas/page/user-login.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 14 Jun 2018 18:43:25 GMT -->
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+
+    <title>tingoTxt — login</title>
+
+    <!-- Styles -->
+    <link href="./assets/css/page.min.css" rel="stylesheet">
+    <link href="./assets/css/style.css" rel="stylesheet">
+
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" href="./assets/img/apple-touch-icon.png">
+    <link rel="icon" href="./assets/img/icon_logo.png">
+
+    <!-- Remember to include jQuery :) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+
+    <!-- jQuery Modal -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+    <link href="main.css" rel="stylesheet" />
+
+    
+  </head>
+
+  <body class="layout-centered bg-img" style="background-color: #fbfdff;">
+
+
+    <!-- Main Content -->
+    <main class="main-content">
+
+      <div class="bg-white rounded shadow-7 w-400 mw-100 p-6">
+        <h5 class="mb-7">Sign into your account</h5>
+
+        <form id="foo" method="POST">
+          <div class="form-group">
+            <input type="text" class="form-control" name="username" placeholder="username">
+          </div>
+
+          <div class="form-group">
+            <input type="password" class="form-control" name="password" placeholder="Password">
+          </div>
+
+          <div class="form-group flexbox py-3">
+            <div class="custom-control custom-checkbox" id="humanconfirm" style="display: none">
+              <input type="checkbox" class="custom-control-input" id="humancheck">
+              <label class="custom-control-label">
+                  <p style="margin: 0;"><a >I'm not a Robot</a></p>
+              </label>
+            </div>
+
+            
+
+            <a href="#ex1" rel="modal:open" id="humanbtn">I'm not a Robot</a>
+
+            <a class="text-muted small-2" href="user-recover.html">Forgot password?</a>
+          </div>
+
+          <div class="form-group">
+            <button class="btn btn-block btn-primary" type="submit">Login</button>
+          </div>
+
+          <div>
+            <!-- Modal HTML embedded directly into document -->
+            <div id="ex1" class="modal" style="padding: 0em">
+              <!-- <p>Thanks for clicking. That felt good.</p>
+              <a href="#" rel="modal:close">Close</a> -->
+
+              <div class="container">
+                  <div class="message"></div>
+                  <div class="instruction"></div>
+                  <div class="message"></div>
+                  <div class="grid-container">
+                      <div class="submit">
+                      <button id="submit-captcha" class="btn">Submit</button>
+                      </div>
+                  </div>
+                  </div>
+
+
+            </div>
+
+            <!-- Link to open the modal -->
+            <!-- <p><a href="#ex1" rel="modal:open">Open Modal</a></p> -->
+          </div>
+        </form>
+
+        <div class="divider">Or Login With</div>
+        <div class="text-center">
+          <a class="btn btn-circle btn-sm btn-facebook mr-2" href="#"><i class="fa fa-facebook"></i></a>
+          <a class="btn btn-circle btn-sm btn-google mr-2" href="#"><i class="fa fa-google"></i></a>
+          <a class="btn btn-circle btn-sm btn-twitter" href="#"><i class="fa fa-twitter"></i></a>
+        </div>
+
+        <hr class="w-30">
+
+        <p class="text-center text-muted small-2">Don't have an account? <a href="register.html">Register here</a></p>
+      </div>
+      <div>
+          <a href="#close-modal" rel="modal:close" id="closeme"></a>
+      </div>
+
+    </main><!-- /.main-content -->
+
+
+    <!-- Scripts -->
+    <script src="./assets/js/page.min.js"></script>
+    <script src="./assets/js/script.js"></script>
+
+    <script>
+      
+    </script>
+
+    <!-- <script src="./assets/js/jquery-3.3.1.min.js"></script> -->
+    <!-- <script src="https://unpkg.com/axios/dist/axios.min.js"></script> -->
+
+    <script>
+         // Variable to hold request
+          var request;
+
+
+        $(document).ready(function() {
+
+          
+
+          $("#btnSubmit").click(function(){
+            document.cookie = "actors_id=actors_id";
+              alert("button");
+          }); 
+          
+
+          // Bind to the submit event of our form
+          $("#foo").submit(function(event){
+
+            if (document.getElementById('humancheck').checked) {
+
+              // Prevent default posting of form - put here to work in case of errors
+              event.preventDefault();
+
+              // Abort any pending request
+              if (request) {
+                  request.abort();
+              }
+              // setup some local variables
+              var $form = $(this);
+
+              // Let's select and cache all the fields
+              var $inputs = $form.find("input, select, button, textarea");
+
+              // Serialize the data in the form
+              var serializedData = $form.serialize();
+
+              var data = new FormData(document.querySelector('form'))
+              var username = data.get("username");
+              var password = data.get("password");
+          
+              
+              
+              
+                
+
+              const request_head = {
+                apikey: 'rL%N8f_4RYT+9m5tMKMv',
+                actions: 'loginuser',
+                usname: username,
+                pwd: password,
+              }
+
+              // Let's disable the inputs for the duration of the Ajax request.
+              // Note: we disable elements AFTER the form data has been serialized.
+              // Disabled form elements will not be serialized.
+              $inputs.prop("disabled", true);
+
+              // Fire off the request to /form.php
+              // const url = "http://tuyoinc.com/api_tingotxt/index.php";
+              request = $.ajax({
+                  url: "http://tuyoinc.com/api_tingotxt/index.php",
+                  type: "post",
+                  data:  $.param(request_head)
+              });
+
+              // Callback handler that will be called on success
+              request.done(function (response, textStatus, jqXHR){
+                  // Log a message to the console
+                  console.log("Response ",  response.response);
+                  
+                  if(response.response.length == 0){
+                    window.location.reload();
+                  }else{
+                    var actors_id = response.response[0].USR_USERID;
+                    var actors_apikey = response.response[0].USR_APIKEY;
+
+                    var myurl = "http://tuyoinc.com/tingotxt_admin/#/dashboard?&actors="+actors_id+"&actors_apikey="+actors_apikey;
+                    window.location.replace(myurl);
+                  }
+                 
+
+                  
+
+              });
+
+              // Callback handler that will be called on failure
+              request.fail(function (jqXHR, textStatus, errorThrown){
+                  // Log the error to the console
+                  window.location.reload();
+                  console.error(
+                      "The following error occurred: "+
+                      textStatus, errorThrown
+                  );
+              });
+
+              // Callback handler that will be called regardless
+              // if the request failed or succeeded
+              request.always(function () {
+                  // Reenable the inputs
+                  $inputs.prop("disabled", false);
+              });
+              
+            } else {
+                alert("Please prove you are not a Bot ");
+                
+            }
+            
+          });
+          
+        });
+    </script>
+
+    
+
+  <script src="draggable.js"></script>
+  <script src="main.js"></script>
+
+
+
+
+  </body>
+
+<!-- Mirrored from thetheme.io/thesaas/page/user-login.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 14 Jun 2018 18:43:25 GMT -->
+</html>
